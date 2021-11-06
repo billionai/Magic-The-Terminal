@@ -6,10 +6,16 @@
 #include <assert.h>
 #include <string>
 
+#include "log.h"
+
 #ifdef DEBUG_BUILD
 #  define debug_assert(condition) assert(condition)
 #else /* DEBUG_BUILD */
-#  define debug_assert(condition)
+#  define debug_assert(condition) \
+    do {\
+        if(!(condition)) \
+            logger::get().log(WARNING, "an assert was hit on function %s, file %s, line %d", __func__ , __FILE__, __LINE__);\
+    }while(0)
 #endif /* DEBUG_BUILD */
 
 #define IS_PERMANENT(cardType) (cardType > 0)

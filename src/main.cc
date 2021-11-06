@@ -2,15 +2,19 @@
 #include <vector>
 
 #include "card.h"
+#include "log.h"
 
 void start_cards(std::vector<Card> &cards){
     /* TODO: Change this to include things to the sqlite database */
     cards.push_back(Card(CREATURE, 1, "Cloudfin Raptor", BLUE));
+    logger::get().log(DEBUG,"creating card ID: %d", 1);
     cards.push_back(Card(CREATURE, 2, "Experiment One", GREEN));
+    logger::get().log(DEBUG,"creating card ID: %d", 2);
 }
 
 int main(){
     std::vector<Card> all_cards;
+    logger::get().setVerbosity(WARNING);
     start_cards(all_cards);
     printf("Welcome to magic the terminal!\n\n");
     for(auto card: all_cards){
