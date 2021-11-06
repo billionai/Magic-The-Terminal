@@ -3,28 +3,6 @@
 #include <string>
 #include "utils.h"
 
-#define IS_PERMANENT(cardType) (cardType > 0)
-
-enum CardType{
-    /* non-permanent cards must be <0 */
-    INSTANT = -2,
-    SORCERY = -1,
-    /* permanent cards must be >0 */
-    LAND = 1,
-    CREATURE,
-    ARTIFACT,
-    ENCHANTMENT,
-    PLANESWALKER
-};
-
-enum CardColors{
-    WHITE =0x1,
-    BLUE = 0x2,
-    BLACK = 0x4,
-    RED = 0x8,
-    GREEN = 0x10
-};
-
 class Card{
 public:
     const CardType type;
