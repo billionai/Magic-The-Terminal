@@ -7,3 +7,4 @@ The current TODO list includes:
 * setup ncurses, to render the game
 * gather enough data on MTG cards to have a deck
 * setup a card class, to hold important information
+* create a logger as a singleton class
