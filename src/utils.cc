@@ -17,12 +17,14 @@ std::string cardTypeAsString(CardType type) {
         case PLANESWALKER:
             return std::string("PLANESWALKER");
     }
-    debug_assert(false);
+    debug_assert_not_reached();
     return std::string("");
 }
 
 std::string cardColorAsString(char color){
     debug_assert(color < COLOR_MAX);
+    if(color == 0)
+        return std::string(" COLORLESS");
     std::string colString;
     if(color & WHITE) colString += " WHITE";
     if(color & BLUE) colString += " BLUE";
@@ -30,4 +32,32 @@ std::string cardColorAsString(char color){
     if(color & RED) colString += " RED";
     if(color & GREEN) colString += " GREEN";
     return colString;
+}
+
+std::string getCSVColumn(std::string line, int column){
+    LOG(DEBUG, "getting column %d of line %s", column, line.c_str());
+    if(column == 0)
+        return line.substr(0, line.find(','));
+    int curr = 0;
+    std::size_t pos;
+    while(curr < column){
+        pos = line.find(',');
+
+        //this assert only fails if column greater than the amount of columns of line
+        debug_assert(pos != std::string::npos);
+        //ignore the previous column
+        line = line.substr(pos+1);
+        curr++;
+    }
+    //the first remaining column is the desired column
+    //just need to get rid of the rest of the string
+    pos = line.find(',');
+    if(pos == std::string::npos){
+        //the requested column is the last one. remove \n if it is there
+        pos = line.find('\n');
+        if(pos == std::string::npos)
+            return line;
+        return line.substr(0,pos);
+    }
+    return line.substr(0,pos);
 }

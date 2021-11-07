@@ -1,6 +1,7 @@
 #ifndef _LAND_H
 #define _LAND_H
 
+#include <stdlib.h>
 #include "card.h"
 
 class Land: public Card {
@@ -20,11 +21,15 @@ public:
          const bool start_mana,
          const int mx_mana):
             Card(LAND, id, name, col),
-            starts_with_mana(mana),
-            max_mana(mx_mana){
-                if(!starts_with_mana)
-                    tap();
-            }
-}
+            max_mana(mx_mana),
+            starts_with_mana(start_mana) { }
+
+    Land(const std::string& line, const int id):
+        Card(LAND, id,
+             getCSVColumn(line, 0),
+             atoi(getCSVColumn(line, 1).c_str())),
+        max_mana(atoi(getCSVColumn(line, 2).c_str())),
+        starts_with_mana(getCSVColumn(line, 3).c_str()[0] != '0') { }
+};
 
 #endif /* _LAND_H */

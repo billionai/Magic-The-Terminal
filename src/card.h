@@ -14,7 +14,7 @@ public:
     const char color;
     Card(CardType ct, int id, std::string nam, char col):
         type(ct), ID(id), name(nam), color(col) {
-            LOG(DEBUG, "creating card %s, with color %s, type %s and id %d", name.c_str(), cardColorAsString(color).c_str(), cardTypeAsString(type).c_str(), id);
+            LOG(DEBUG, "creating card %s, with color %d, type %s and id %d", name.c_str(), color, cardTypeAsString(type).c_str(), id);
         }
 
     bool getTap();

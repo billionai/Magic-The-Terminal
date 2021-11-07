@@ -10,11 +10,16 @@
 
 #ifdef DEBUG_BUILD
 #  define debug_assert(condition) assert(condition)
+#  define debug_assert_not_reached() assert(false)
 #else /* DEBUG_BUILD */
 #  define debug_assert(condition) \
     do {\
         if(!(condition)) \
             logger::get().log(WARNING, "an assert was hit on function %s, file %s, line %d", __func__ , __FILE__, __LINE__);\
+    }while(0)
+#  define debug_assert_not_reached() \
+    do {\
+        logger::get().log(WARNING, "an assert was hit on function %s, file %s, line %d", __func__ , __FILE__, __LINE__);\
     }while(0)
 #endif /* DEBUG_BUILD */
 
@@ -46,5 +51,7 @@ enum CardColors{
 };
 
 std::string cardColorAsString(char color);
+
+std::string getCSVColumn(std::string line, int column);
 
 #endif /* _UTILS_H */
