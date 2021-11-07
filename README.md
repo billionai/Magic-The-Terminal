@@ -6,5 +6,9 @@ The current TODO list includes:
 * setting up an sqlite3 database for the cards
 * setup ncurses, to render the game
 * gather enough data on MTG cards to have a deck
-* setup a card class, to hold important information
-* create a logger as a singleton class
+* setup specific classes
+* create a reader function, that can read card information from a file and turn into a card object
+
+Current done list:
+* [2021-11-06]: Created logging singleton
+* [2021-11-06]: created base Card class
