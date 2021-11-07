@@ -20,6 +20,8 @@
 
 #define IS_PERMANENT(cardType) (cardType > 0)
 
+#define LOG(level, fmt, ...) (logger::get().log(level, fmt, __VA_ARGS__))
+
 enum CardType{
     /* non-permanent cards must be <0 */
     INSTANT = -2,
@@ -32,26 +34,7 @@ enum CardType{
     PLANESWALKER
 };
 
-std::string cardTypeAsString(CardType type) {
-    switch(type){
-        case INSTANT:
-            return std::string("INSTANT");
-        case SORCERY:
-            return std::string("SORCERY");
-        case LAND:
-            return std::string("LAND");
-        case CREATURE:
-            return std::string("CREATURE");
-        case ARTIFACT:
-            return std::string("ARTIFACT");
-        case ENCHANTMENT:
-            return std::string("ENCHANTMENT");
-        case PLANESWALKER:
-            return std::string("PLANESWALKER");
-    }
-    debug_assert(false);
-    return std::string("");
-}
+std::string cardTypeAsString(CardType type);
 
 enum CardColors{
     WHITE =0x1,
@@ -62,15 +45,6 @@ enum CardColors{
     COLOR_MAX = 0x1f
 };
 
-std::string cardColorAsString(char color){
-    debug_assert(color < COLOR_MAX);
-    std::string colString;
-    if(color & WHITE) colString += " WHITE";
-    if(color & BLUE) colString += " BLUE";
-    if(color & BLACK) colString += " BLACK";
-    if(color & RED) colString += " RED";
-    if(color & GREEN) colString += " GREEN";
-    return colString;
-}
+std::string cardColorAsString(char color);
 
 #endif /* _UTILS_H */

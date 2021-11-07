@@ -7,9 +7,7 @@
 void start_cards(std::vector<Card> &cards){
     /* TODO: Change this to include things to the sqlite database */
     cards.push_back(Card(CREATURE, 1, "Cloudfin Raptor", BLUE));
-    logger::get().log(DEBUG,"creating card ID: %d", 1);
     cards.push_back(Card(CREATURE, 2, "Experiment One", GREEN));
-    logger::get().log(DEBUG,"creating card ID: %d", 2);
 }
 
 int main(){

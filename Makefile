@@ -21,7 +21,7 @@ $(OUTPUT): $(OBJ_FILES) depend
 	$(CC) $(LINK_FLAGS) -o $(OUTPUT) $(OBJ_FILES)
 
 %.o:%.cc
-	$(CC) $(COMP_FLAGS) $<
+	$(CC) $(COMP_FLAGS) $< -o $@
 
 debug:
 	$(CC) $(DEBUG_FLAGS) $(SRC_FILES) -o $(OUTPUT)
