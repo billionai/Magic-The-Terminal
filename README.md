@@ -29,3 +29,7 @@ Current "I thought about it some more and wont do it" list:
     * I will access data in a mostly linear fashion, and all data has a numerical and incrementing ID. I can use a vector well enough for now. maybe will add this if performace starts being bad
 * gather enough data on MTG cards to have a deck
     * Not sure if I can actually distribute this. instead, I'm adding locally and wish good luck to anyone that tries to do the same.
+
+
+Legal disclaimer thingy:
+Magic the Terminal is unofficial Fan Content permitted under the Fan Content Policy. Not approved/endorsed by Wizards. Portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.
