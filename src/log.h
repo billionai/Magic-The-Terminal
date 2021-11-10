@@ -46,4 +46,6 @@ class logger {
         }
 };
 
+#define LOG(level, fmt, ...) (logger::get().log(level, fmt, __VA_ARGS__))
+
 #endif /* _LOG_H */

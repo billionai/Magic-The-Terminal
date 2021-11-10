@@ -25,8 +25,6 @@
 
 #define IS_PERMANENT(cardType) (cardType > 0)
 
-#define LOG(level, fmt, ...) (logger::get().log(level, fmt, __VA_ARGS__))
-
 enum CardType{
     /* non-permanent cards must be <0 */
     INSTANT = -2,
