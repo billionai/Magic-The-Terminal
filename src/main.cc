@@ -3,6 +3,7 @@
 #include <fstream>
 
 #include "land.h"
+//#include "creature.h"
 #include "log.h"
 
 #ifdef DEBUG_BUILD

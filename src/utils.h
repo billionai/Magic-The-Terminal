@@ -40,6 +40,7 @@ enum CardType{
 std::string cardTypeAsString(CardType type);
 
 enum CardColors{
+    COLORLESS = 0,
     WHITE =0x1,
     BLUE = 0x2,
     BLACK = 0x4,
@@ -49,6 +50,11 @@ enum CardColors{
 };
 
 std::string cardColorAsString(char color);
+
+//turn a single color character into a CardColor
+CardColors stringToColor(char c);
+//turn 2 color characters into a CardColor char
+char stringToColor(char c1, char c2);
 
 std::string getCSVColumn(std::string line, int column);
 

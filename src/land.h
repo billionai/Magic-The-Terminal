@@ -2,12 +2,13 @@
 #define _LAND_H
 
 #include <stdlib.h>
+#include <vector>
 #include "card.h"
+#include "mana.h"
 
 class Land: public Card {
 private:
-    const int max_mana; //how much mana this land generate
-    //TODO add colored mana
+    const mana max_mana; //how much mana this land generate
 
     //if the card can generate mana as soon as it is played
     //gate and other special land cards cannot
@@ -19,7 +20,7 @@ public:
          const std::string name,
          const char col,
          const bool start_mana,
-         const int mx_mana):
+         const mana mx_mana):
             Card(LAND, id, name, col),
             max_mana(mx_mana),
             starts_with_mana(start_mana) { }
@@ -28,8 +29,8 @@ public:
         Card(LAND, id,
              getCSVColumn(line, 0),
              atoi(getCSVColumn(line, 1).c_str())),
-        max_mana(atoi(getCSVColumn(line, 2).c_str())),
-        starts_with_mana(getCSVColumn(line, 3).c_str()[0] != '0') { }
+        max_mana(getCSVColumn(line, 2)),
+        starts_with_mana(getCSVColumn(line, 3)[0] != '0') { }
 };
 
 #endif /* _LAND_H */

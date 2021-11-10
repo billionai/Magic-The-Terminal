@@ -20,6 +20,7 @@ The current TODO list includes:
 * setup ncurses, to render the game
 
 Current done list:
+* [2021-11-11]: Created mana class
 * [2021-11-07]: Created Land class and parser from CSV file
 * [2021-11-06]: Created logging singleton
 * [2021-11-06]: created base Card class

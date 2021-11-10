@@ -34,6 +34,31 @@ std::string cardColorAsString(char color){
     return colString;
 }
 
+CardColors stringToColor(char c){
+    switch(c){
+        case 'W':
+            return WHITE;
+        case 'U':
+            return BLUE;
+        case 'B':
+            return BLACK;
+        case 'R':
+            return RED;
+        case 'G':
+            return GREEN;
+        case 'C':
+            return COLORLESS;
+        default:
+            debug_assert_not_reached();
+    }
+    return COLORLESS;
+}
+
+char stringToColor(char c1, char c2){
+    debug_assert(c1 != c2);
+    return stringToColor(c1) | stringToColor(c2);
+}
+
 std::string getCSVColumn(std::string line, int column){
     LOG(DEBUG, "getting column %d of line %s", column, line.c_str());
     if(column == 0)
