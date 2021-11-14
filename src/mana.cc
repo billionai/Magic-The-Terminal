@@ -9,7 +9,7 @@ mana::mana(std::string ss){
     }
     char order[]={'C', 'W', 'U', 'B', 'R', 'G'};
     for(int o = 0; o < 6; o++) {
-        for(size_t j = i+1; j < ss.length(); j++){
+        for(size_t j = i; j < ss.length(); j++){
             debug_assert(!isdigit(ss[j]));//we can't have leftover digits
             if(ss[j] == order[o]) s += ss[j];
         }
@@ -17,7 +17,7 @@ mana::mana(std::string ss){
 }
 
 bool mana::has_hybrid(){
-    return s.find('(') >= 0;
+    return s.find('(') != std::string::npos;
 }
 
 bool mana::has_generic(){
