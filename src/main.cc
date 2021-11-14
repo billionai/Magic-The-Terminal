@@ -3,7 +3,7 @@
 #include <fstream>
 
 #include "land.h"
-//#include "creature.h"
+#include "creature.h"
 #include "log.h"
 
 #ifdef DEBUG_BUILD
@@ -12,21 +12,23 @@
 #  define VERBOSITY WARNING
 #endif
 
-void start_cards(std::vector<Card> &cards){
-    /* TODO: Change this to include things to the sqlite database */
-    std::ifstream cardFiles;
-    std::string line, fName, dir = "cards/";
+#define READ_CARDS(Type, fname, output) do{\
+    cardFile.open("cards/" fname);\
+    debug_assert(cardFile.is_open());\
+    getline(cardFile, line);\
+    getline(cardFile, line);\
+    while(!line.empty()){\
+        cards.push_back(Type(line, cards.size()));\
+        getline(cardFile, line);\
+    }\
+}while(0)
 
-    //read all lands
-    fName = dir + "lands";
-    cardFiles.open(fName.c_str());
-    debug_assert(cardFiles.is_open());
-    getline(cardFiles, line); //remove header
-    getline(cardFiles, line);
-    while(!line.empty()){
-        cards.push_back(Land(line, cards.size()));
-        getline(cardFiles, line);
-    }
+void start_cards(std::vector<Card> &cards){
+    std::ifstream cardFile;
+    std::string line;
+    /* TODO: Change this to include things to the sqlite database */
+    READ_CARDS(Land, "lands", cards);
+    READ_CARDS(Creature, "Creature", cards);
 }
 
 int main(){
