@@ -5,6 +5,7 @@
 #include "land.h"
 #include "creature.h"
 #include "log.h"
+#include "effects.h"
 
 #ifdef DEBUG_BUILD
 #  define VERBOSITY DEBUG
