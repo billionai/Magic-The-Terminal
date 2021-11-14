@@ -59,6 +59,18 @@ char stringToColor(char c1, char c2){
     return stringToColor(c1) | stringToColor(c2);
 }
 
+std::vector<std::string> split(std::string s, char delim){
+    size_t pos=-1, new_pos;
+    std::vector<std::string> ret;
+    do{
+        pos++;
+        new_pos = s.find(delim, pos);
+        ret.push_back(s.substr(pos, new_pos-pos));
+        pos = new_pos;
+    }while(pos != std::string::npos);
+    return ret;
+}
+
 std::string getCSVColumn(std::string line, int column){
     LOG(DEBUG, "getting column %d of line %s", column, line.c_str());
     if(column == 0)
@@ -77,12 +89,7 @@ std::string getCSVColumn(std::string line, int column){
     //the first remaining column is the desired column
     //just need to get rid of the rest of the string
     pos = line.find(',');
-    if(pos == std::string::npos){
-        //the requested column is the last one. remove \n if it is there
-        pos = line.find('\n');
-        if(pos == std::string::npos)
-            return line;
-        return line.substr(0,pos);
-    }
+    if(pos == std::string::npos)
+        return line;
     return line.substr(0,pos);
 }

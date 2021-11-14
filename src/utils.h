@@ -5,6 +5,7 @@
 
 #include <assert.h>
 #include <string>
+#include <vector>
 
 #include "log.h"
 
@@ -22,6 +23,10 @@
         logger::get().log(WARNING, "an assert was hit on function %s, file %s, line %d", __func__ , __FILE__, __LINE__);\
     }while(0)
 #endif /* DEBUG_BUILD */
+
+#define ADD_BIT(store, bit) ((store) |= (1<<(bit)))
+#define REMOVE_BIT(store, bit) ((store) &= ~(1<<(bit)))
+#define CHECK_BIT(store, bit) (((store)>>(bit)) & 1)
 
 #define IS_PERMANENT(cardType) (cardType > 0)
 
@@ -56,6 +61,9 @@ CardColors stringToColor(char c);
 //turn 2 color characters into a CardColor char
 char stringToColor(char c1, char c2);
 
+/* returns a vector with the split substring, without delimiter */
+std::vector<std::string> split(std::string s, char delim);
+/* returns a single column from CSV, similar idea to split, but no vector */
 std::string getCSVColumn(std::string line, int column);
 
 #endif /* _UTILS_H */
