@@ -9,12 +9,11 @@ private:
 
 public:
     const CardType type;
-    const int ID;
     const std::string name;
     const char color;
-    Card(CardType ct, int id, std::string nam, char col):
-        type(ct), ID(id), name(nam), color(col) {
-            LOG(DEBUG, "creating card %s, with color %d, type %s and id %d", name.c_str(), color, cardTypeAsString(type).c_str(), id);
+    Card(CardType ct, std::string nam, char col):
+        type(ct), name(nam), color(col) {
+            LOG(DEBUG, "creating card %s, with color %d and type %s", name.c_str(), color, cardTypeAsString(type).c_str());
         }
 
     bool getTap();

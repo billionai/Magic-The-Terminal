@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <vector>
+//#include <vector>
+#include <unordered_map>
 #include <fstream>
 
 #include "land.h"
@@ -19,12 +20,14 @@
     getline(cardFile, line);\
     getline(cardFile, line);\
     while(!line.empty()){\
-        cards.push_back(make_##Type(line));\
+        Type t = make_##Type(line);\
+        debug_assert(output.count(t.name) == 0);\
+        output.emplace(t.name, t);\
         getline(cardFile, line);\
     }\
 }while(0)
 
-void start_cards(std::vector<Card> &cards){
+void start_cards(std::unordered_map<std::string, Card> &cards){
     std::ifstream cardFile;
     std::string line;
     /* TODO: Change this to include things to the sqlite database */
@@ -33,13 +36,13 @@ void start_cards(std::vector<Card> &cards){
 }
 
 int main(){
-    std::vector<Card> all_cards;
+    std::unordered_map<std::string, Card> all_cards;
     logger::get().setVerbosity(VERBOSITY);
     start_cards(all_cards);
     printf("Welcome to magic the terminal!\n\n");
     for(auto card: all_cards){
-        printf("%s\ncard type: %s, card ID: %d, card colors:%s\n", card.name.c_str(),
-                            cardTypeAsString(card.type).c_str(), card.ID, cardColorAsString(card.color).c_str());
+        printf("%s\ncard type: %s, card colors:%s\n", card.second.name.c_str(),
+                            cardTypeAsString(card.second.type).c_str(), cardColorAsString(card.second.color).c_str());
     }
     return 0;
 }

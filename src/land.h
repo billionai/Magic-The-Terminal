@@ -24,8 +24,7 @@ private:
     std::vector<complexEffect> effects;
 
 public:
-    Land(const int id,
-         const std::string name,
+    Land(const std::string name,
          const char col,
          std::vector<complexEffect> e);
 };
