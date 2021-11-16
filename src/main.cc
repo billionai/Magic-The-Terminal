@@ -19,7 +19,7 @@
     getline(cardFile, line);\
     getline(cardFile, line);\
     while(!line.empty()){\
-        cards.push_back(Type(line, cards.size()));\
+        cards.push_back(make_##Type(line));\
         getline(cardFile, line);\
     }\
 }while(0)
@@ -29,7 +29,7 @@ void start_cards(std::vector<Card> &cards){
     std::string line;
     /* TODO: Change this to include things to the sqlite database */
     READ_CARDS(Land, "lands", cards);
-    READ_CARDS(Creature, "Creature", cards);
+    //READ_CARDS(Creature, "creatures", cards);
 }
 
 int main(){

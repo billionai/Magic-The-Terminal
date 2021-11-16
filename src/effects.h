@@ -10,8 +10,15 @@
  * explicitly effects in the game. for example, when a 
  * card enters tapped, there will be a free effect that
  * taps the creature
+ *
+ * when the effect may generate mana, the card that
+ * generates it must be able to calculate how much,
+ * otherwise, mana_gen with constant mana strings would
+ * get out of hand quickly.
+ *
  */
 #include <string>
+#include <memory>
 #include "log.h"
 #include "utils.h"
 #include "mana.h"
@@ -61,6 +68,7 @@ effectTargetType stringToEffectTargetType(std::string);
 class Effect {
 public:
     const std::string name; /* the name of the effect. must be unique */
+    const bool mandatory; /* if the effect must take place */
 
     /* bitmasks from the enums */
     const int trigger; /* what kinds of things trigger this effect */
@@ -69,16 +77,35 @@ public:
     const int target; /* what are the kinds of targets that this effect can have */
 
     /* Members that are only defined in certain situations */
-    const mana mana_cost; /* this can be the cost or the generation */
+    const mana mana_cost;
     const int n; /* this can stand for counters, damage or other 'N' stuff */
 
     /*
      * this is not expected to be used directly. pass the string to
      * make_effect, which can create the correct effects more easily
      */
-    Effect(std::string nam, int tr, int c, int res, int tar, mana cst, int N);
+    Effect(std::string nam, bool man,int tr, int c, int res, int tar, mana cst, int N);
 };
 
 Effect make_effect(std::string line);
+
+class complexEffect{
+private:
+    const Effect* main; //not owned, just points to preallocated memory
+    complexEffect* chain; //owned, points to next element in list
+public:
+    complexEffect(const Effect* m): main(m), chain(nullptr){ }
+    ~complexEffect(){
+        delete chain;
+        main = nullptr;
+        chain = nullptr;
+    }
+    void addEffect(const Effect* e){
+        if(chain == nullptr)
+            chain->addEffect(e);
+        else
+            chain = new complexEffect(e);
+    }
+};
 
 #endif

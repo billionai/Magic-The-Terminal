@@ -5,32 +5,31 @@
 #include <vector>
 #include "card.h"
 #include "mana.h"
+#include "effects.h"
+
+/* All lands generate mana, which is managed as an effect.
+ * lands that can generate multiple times of mana (like gates)
+ * will have multiple complex effects.  Lands that generate
+ * more than one mana will have one complexEffect chain, where
+ * the first effect has a cost of tapping, and is not
+ * mandatory, and all others are free and mandatory.
+ *
+ * Lands that start tapped must have the effect enter_tapped,
+ * which is a free and mandatory effect that taps the card as
+ * it enters the battlefield.
+ */
 
 class Land: public Card {
 private:
-    const mana max_mana; //how much mana this land generate
-
-    //if the card can generate mana as soon as it is played
-    //gate and other special land cards cannot
-    //but regular land can
-    const bool starts_with_mana; 
+    std::vector<complexEffect> effects;
 
 public:
     Land(const int id,
          const std::string name,
          const char col,
-         const bool start_mana,
-         const mana mx_mana):
-            Card(LAND, id, name, col),
-            max_mana(mx_mana),
-            starts_with_mana(start_mana) { }
-
-    Land(const std::string& line, const int id):
-        Card(LAND, id,
-             getCSVColumn(line, 0),
-             atoi(getCSVColumn(line, 1).c_str())),
-        max_mana(getCSVColumn(line, 2)),
-        starts_with_mana(getCSVColumn(line, 3)[0] != '0') { }
+         std::vector<complexEffect> e);
 };
+
+Land make_Land(std::string line);
 
 #endif /* _LAND_H */

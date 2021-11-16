@@ -1,7 +1,7 @@
 #include "effects.h"
 
-Effect::Effect(std::string nam, int tr, int c, int res, int tar, mana cst, int N):
-    name(nam), trigger(tr), cost(c), result(res), target(tar),mana_cost(cst),n(N)
+Effect::Effect(std::string nam, bool man, int tr, int c, int res, int tar, mana cst, int N):
+    name(nam), mandatory(man), trigger(tr), cost(c), result(res), target(tar),mana_cost(cst),n(N)
     { }
 
 effectTrigger stringToEffectTrigger(std::string s){
@@ -43,12 +43,13 @@ effectTargetType stringToEffectTargetType(std::string s){
 
 Effect make_effect(std::string line){
     std::string name = getCSVColumn(line, 0);
-    std::vector<std::string> triggers = split(getCSVColumn(line, 1),'|');
-    std::vector<std::string> costs = split(getCSVColumn(line, 2),'|');
-    std::vector<std::string> results = split(getCSVColumn(line, 3),'|');
-    std::vector<std::string> targets = split(getCSVColumn(line, 4),'|');
-    mana m(getCSVColumn(line, 5));
-    int n = atoi(getCSVColumn(line, 6).c_str());
+    bool mandatory = (getCSVColumn(line,1)[0] == '1');
+    std::vector<std::string> triggers = split(getCSVColumn(line, 2),'|');
+    std::vector<std::string> costs = split(getCSVColumn(line, 3),'|');
+    std::vector<std::string> results = split(getCSVColumn(line, 4),'|');
+    std::vector<std::string> targets = split(getCSVColumn(line, 5),'|');
+    mana m(getCSVColumn(line, 6));
+    int n = atoi(getCSVColumn(line, 7).c_str());
     int tr, c, res, tar;
     tr = c = res = tar = 0;
     for (auto itr: triggers){
@@ -75,5 +76,5 @@ Effect make_effect(std::string line){
         debug_assert(!CHECK_BIT(tar,target));
         ADD_BIT(tar, target);
     }
-    return Effect(name, tr, c, res, tar, m, n);
+    return Effect(name, mandatory, tr, c, res, tar, m, n);
 }
