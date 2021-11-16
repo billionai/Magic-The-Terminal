@@ -92,19 +92,22 @@ Effect make_effect(std::string line);
 class complexEffect{
 private:
     const Effect* main; //not owned, just points to preallocated memory
-    complexEffect* chain; //owned, points to next element in list
+    std::unique_ptr<complexEffect> chain; //owned, points to next element in list
 public:
     complexEffect(const Effect* m): main(m), chain(nullptr){ }
+    complexEffect(const complexEffect&) = delete;
+    complexEffect(complexEffect&&) = default;
     ~complexEffect(){
-        delete chain;
+        //delete chain;
         main = nullptr;
-        chain = nullptr;
+        //chain = nullptr;
     }
     void addEffect(const Effect* e){
-        if(chain == nullptr)
+        if(chain != nullptr)
             chain->addEffect(e);
         else
-            chain = new complexEffect(e);
+            //chain = new complexEffect(e);
+            chain = std::make_unique<complexEffect>(e);
     }
 };
 
