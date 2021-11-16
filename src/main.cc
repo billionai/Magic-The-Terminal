@@ -14,7 +14,7 @@
 #endif
 
 #define READ_CARDS(Type, fname, output) do{\
-    cardFile.open("cards/" fname);\
+    std::ifstream cardFile("database/" fname);\
     debug_assert(cardFile.is_open());\
     getline(cardFile, line);\
     getline(cardFile, line);\

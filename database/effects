@@ -1,0 +1,8 @@
+name,mandatory,all|triggers,all|costs,all|results,all|targets,mana,count
+enter_tapped,1,ENTER_FIELD,FREE,TAP_TARGET,SELF,,0
+mana_gen_C,0,ANYTIME,TAP,GENERATE_MANA,SELF,C,0
+mana_gen_W,0,ANYTIME,TAP,GENERATE_MANA,SELF,W,0
+mana_gen_U,0,ANYTIME,TAP,GENERATE_MANA,SELF,U,0
+mana_gen_B,0,ANYTIME,TAP,GENERATE_MANA,SELF,B,0
+mana_gen_R,0,ANYTIME,TAP,GENERATE_MANA,SELF,R,0
+mana_gen_G,0,ANYTIME,TAP,GENERATE_MANA,SELF,G,0
