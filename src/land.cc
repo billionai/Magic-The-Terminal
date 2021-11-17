@@ -2,9 +2,9 @@
 
 Land::Land(const std::string name,
      const char col,
-     std::vector<complexEffect> e):
+     std::vector<complexEffect>&& e):
         Card(LAND, name, col),
-        effects(e) { }
+        effects(std::move(e)) { }
 
 Land make_Land(std::string line){
     std::string name(getCSVColumn(line, 0));
@@ -15,5 +15,5 @@ Land make_Land(std::string line){
     complexEffect ce(&e);
     std::vector<complexEffect> ef;
     ef.emplace_back(std::move(ce));
-    return Land(name, col, ef);
+    return Land(name, col, std::move(ef));
 }

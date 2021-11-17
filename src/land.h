@@ -26,7 +26,7 @@ private:
 public:
     Land(const std::string name,
          const char col,
-         std::vector<complexEffect> e);
+         std::vector<complexEffect>&& e);
 };
 
 Land make_Land(std::string line);
