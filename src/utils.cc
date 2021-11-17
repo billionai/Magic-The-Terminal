@@ -70,26 +70,3 @@ std::vector<std::string> split(std::string s, char delim){
     }while(pos != std::string::npos);
     return ret;
 }
-
-std::string getCSVColumn(std::string line, int column){
-    LOG(DEBUG, "getting column %d of line %s", column, line.c_str());
-    if(column == 0)
-        return line.substr(0, line.find(','));
-    int curr = 0;
-    std::size_t pos;
-    while(curr < column){
-        pos = line.find(',');
-
-        //this assert only fails if column greater than the amount of columns of line
-        debug_assert(pos != std::string::npos);
-        //ignore the previous column
-        line = line.substr(pos+1);
-        curr++;
-    }
-    //the first remaining column is the desired column
-    //just need to get rid of the rest of the string
-    pos = line.find(',');
-    if(pos == std::string::npos)
-        return line;
-    return line.substr(0,pos);
-}

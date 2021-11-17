@@ -63,7 +63,5 @@ char stringToColor(char c1, char c2);
 
 /* returns a vector with the split substring, without delimiter */
 std::vector<std::string> split(std::string s, char delim);
-/* returns a single column from CSV, similar idea to split, but no vector */
-std::string getCSVColumn(std::string line, int column);
 
 #endif /* _UTILS_H */
