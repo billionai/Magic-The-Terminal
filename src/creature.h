@@ -28,16 +28,9 @@ public:
              const char col,
              const int atk,
              const int mx_hp,
-             const mana cst):
-                Card(CREATURE, name, col),
-                cost(cst), attack(atk),
-                max_health(mx_hp){ }
-    Creature(std::string line):
-        Card(CREATURE, getCSVColumn(line, 0),
-             atoi(getCSVColumn(line, 1).c_str())),
-        cost(getCSVColumn(line, 2)),
-        attack(atoi(getCSVColumn(line, 3).c_str())),
-        max_health(atoi(getCSVColumn(line, 4).c_str())) { }
+             const mana cst);
 };
+
+Creature make_Creature(std::string line);
 
 #endif /*_CREATURE_H*/

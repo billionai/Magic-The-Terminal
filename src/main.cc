@@ -32,7 +32,7 @@ void start_cards(std::unordered_map<std::string, Card> &cards){
     std::string line;
     /* TODO: Change this to include things to the sqlite database */
     READ_CARDS(Land, "lands", cards);
-    //READ_CARDS(Creature, "creatures", cards);
+    READ_CARDS(Creature, "creatures", cards);
 }
 
 int main(){

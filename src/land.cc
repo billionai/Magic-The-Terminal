@@ -7,13 +7,10 @@ Land::Land(const std::string name,
         effects(std::move(e)) { }
 
 Land make_Land(std::string line){
-    std::string name(getCSVColumn(line, 0));
-    int col = atoi(getCSVColumn(line, 1).c_str());
-    std::vector<std::string> effs = split(getCSVColumn(line, 2), '|');
-    //making a dummy effect, just to test generation
+    std::vector<std::string> params = split(line, ',');
     Effect e = make_effect("name,0,ANYTIME,TAP,GENERATE_MANA,SELF,C,0");
     complexEffect ce(&e);
     std::vector<complexEffect> ef;
     ef.emplace_back(std::move(ce));
-    return Land(name, col, std::move(ef));
+    return Land(params[0], atoi(params[1].c_str()), std::move(ef));
 }
