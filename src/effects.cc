@@ -42,14 +42,15 @@ effectTargetType stringToEffectTargetType(std::string s){
 }
 
 Effect make_effect(std::string line){
-    std::string name = getCSVColumn(line, 0);
-    bool mandatory = (getCSVColumn(line,1)[0] == '1');
-    std::vector<std::string> triggers = split(getCSVColumn(line, 2),'|');
-    std::vector<std::string> costs = split(getCSVColumn(line, 3),'|');
-    std::vector<std::string> results = split(getCSVColumn(line, 4),'|');
-    std::vector<std::string> targets = split(getCSVColumn(line, 5),'|');
-    mana m(getCSVColumn(line, 6));
-    int n = atoi(getCSVColumn(line, 7).c_str());
+    std::vector<std::string> params = split(line, ',');
+    std::string name = params[0];
+    bool mandatory = (params[1][0] == '1');
+    std::vector<std::string> triggers = split(params[2],'|');
+    std::vector<std::string> costs = split(params[3],'|');
+    std::vector<std::string> results = split(params[4],'|');
+    std::vector<std::string> targets = split(params[5],'|');
+    mana m(params[6]);
+    int n = atoi(params[7].c_str());
     int tr, c, res, tar;
     tr = c = res = tar = 0;
     for (auto itr: triggers){
