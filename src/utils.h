@@ -11,7 +11,7 @@
 
 #ifdef DEBUG_BUILD
 #  define debug_assert(condition) assert(condition)
-#  define debug_assert_not_reached() assert(false)
+#  define debug_assert_not_reached() __builtin_unreachable()
 #else /* DEBUG_BUILD */
 #  define debug_assert(condition) \
     do {\
@@ -21,7 +21,8 @@
 #  define debug_assert_not_reached() \
     do {\
         logger::get().log(WARNING, "an assert was hit on function %s, file %s, line %d", __func__ , __FILE__, __LINE__);\
-    }while(0)
+    }while(0);\
+    __builtin_unreachable()
 #endif /* DEBUG_BUILD */
 
 #define ADD_BIT(store, bit) ((store) |= (1<<(bit)))
