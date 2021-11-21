@@ -3,6 +3,7 @@
 
 #include "mana.h"
 #include "card.h"
+#include "traits.h"
 
 class Creature: public Card{
 private:
@@ -10,6 +11,10 @@ private:
     const int attack;
     const int max_health;
     //TODO add card effects
+
+    //these members can start with values, but they may be
+    //changed as the game goes on
+    std::vector<trait> traits;
 
     //during a combat phase, this is important
     //after the combat phase, the health is back up to full
@@ -28,7 +33,8 @@ public:
              const char col,
              const int atk,
              const int mx_hp,
-             const mana cst);
+             const mana cst,
+             std::vector<trait>&);
 };
 
 Creature make_Creature(std::string line);

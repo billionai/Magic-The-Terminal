@@ -1,7 +1,8 @@
-name,color,cost,attack,health,type
-Cloudfin Raptor,2,U,0,1,Bird Mutant
-Experiment One,16,G,1,1,Human Ooze
-Shambleshark,18,UG,2,1,Shark Crab
-Elusive Krasis,18,1UG,0,4,Fish Mutant
-Fathom Mage,18,2UG,1,1,Human Mage
-Gyre Sage,16,1G,1,2,Elf Druid
+name,color,cost,attack,health,traits,type
+Cloudfin Raptor,2,U,0,1,,Bird Mutant
+Experiment One,16,G,1,1,,Human Ooze
+Shambleshark,18,UG,2,1,,Shark Crab
+Elusive Krasis,18,1UG,0,4,,Fish Mutant
+Fathom Mage,18,2UG,1,1,,Human Mage
+Gyre Sage,16,1G,1,2,,Elf Druid
+Goblin Brawler,8,2R,2,2,FIRST_STRIKE,Goblin Warrior
