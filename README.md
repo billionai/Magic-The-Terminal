@@ -2,9 +2,22 @@
 
 This project aims to make an arena game based on Magic the Gathering's Commander style game
 
+DATABASE:
+
+The database is made up of CSV files detailing all information needed. The current syntax works like so:
+
+1. add fields are separated by ','
+2. some fields may have multiple values, such as triggers for effects; these are separated by '|'
+3. some of THOSE can still have multiple values, specifically thinking of effect chain. these are separated by -
+
+An example of a creature as complex as possible is as follows:
+
+Timberwatch Elf, 16, 2G, 1, 2,,ADD\_CE\_ON\_ELF\_ENTER|TAP\_ADD\_PLUS1-ADD\_FREE\_PLUS1, Elf
+
+which reads like so: Timberwatch Elf, a green elf card, with mana cost of 2 colorless mana and one green mana, has an attack of 1, a toughness of 2, and 2 ability chains: one that adds a complex effect when an elf enters the battlefield, other that adds +1/+1 countes to the target creature with a number equal to the amount of elves on the board.
+
 The current TODO list includes:
 * setup specific classes for all card types
-    * create a reader function, that can read card information from a file and turn into a card object
 * create an Effect class, that handles special triggers
 * Create a deck class, that can be shuffled and stores the IDs of the cards
     * It must also have a reader from file
@@ -20,6 +33,12 @@ The current TODO list includes:
 * setup ncurses, to render the game
 
 Current done list:
+* added a simple CSV database to the project
+* created file reader for lands, creatures and effects
+* created complexEffects as a way to chain simple effects together
+* created effects that can be activated and generate results
+* created trait class, to be used by creature class as information (stuff like flying, haste, ...)
+* created creature class
 * [2021-11-11]: Created mana class
 * [2021-11-07]: Created Land class and parser from CSV file
 * [2021-11-06]: Created logging singleton
