@@ -12,7 +12,7 @@ The database is made up of CSV files detailing all information needed. The curre
 
 An example of a creature as complex as possible is as follows:
 
-Timberwatch Elf, 16, 2G, 1, 2,,ADD\_CE\_ON\_ELF\_ENTER|TAP\_ADD\_PLUS1-ADD\_FREE\_PLUS1, Elf
+Timberwatch Elf, 16, 2G, 1, 2,,ADD\_CE\_ON\_ELF\_ENTER-ADD\_FREE\_PLUS1|TAP\_ADD\_PLUS1, Elf
 
 which reads like so: Timberwatch Elf, a green elf card, with mana cost of 2 colorless mana and one green mana, has an attack of 1, a toughness of 2, and 2 ability chains: one that adds a complex effect when an elf enters the battlefield, other that adds +1/+1 countes to the target creature with a number equal to the amount of elves on the board.
 
