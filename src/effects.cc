@@ -60,24 +60,28 @@ Effect make_effect(std::string line){
     tr = c = res = tar = 0;
     for (auto itr: triggers){
         effectTrigger t = stringToEffectTrigger(itr);
+        LOG(DEBUG, "attempting to create trigger: %s", itr.c_str());
         debug_assert(t != TRIGGER_INVALID);
         debug_assert(!CHECK_BIT(tr, t));
         ADD_BIT(tr, t);
     }
     for(auto itr: costs){
         effectCost cost = stringToEffectCost(itr);
+        LOG(DEBUG, "attempting to create cost: %s", itr.c_str());
         debug_assert(cost != EFFECT_COST_INVALID);
         debug_assert(!CHECK_BIT(c,cost));
         ADD_BIT(c, cost);
     }
     for(auto itr: results){
         effectResult result = stringToEffectResult(itr);
+        LOG(DEBUG, "attempting to create result: %s", itr.c_str());
         debug_assert(result != RESULT_INVALID);
         debug_assert(!CHECK_BIT(res,result));
         ADD_BIT(res, result);
     }
     for(auto itr: targets){
         effectTargetType target = stringToEffectTargetType(itr);
+        LOG(DEBUG, "attempting to create target: %s", itr.c_str());
         debug_assert(target != TARGET_INVALID);
         debug_assert(!CHECK_BIT(tar,target));
         ADD_BIT(tar, target);
