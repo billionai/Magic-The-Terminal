@@ -12,6 +12,7 @@ effectTrigger stringToEffectTrigger(std::string s){
     if(s == "ATTACK") return TRIGGER_ATTACK;
     if(s == "GET_ATTACKED") return TRIGGER_GET_ATTACKED;
     if(s == "RECEIVE_TOKEN") return TRIGGER_RECEIVE_TOKEN;
+    if(s == "DEATH") return TRIGGER_DEATH;
     return TRIGGER_INVALID;
 }
 
@@ -28,6 +29,7 @@ effectResult stringToEffectResult(std::string s){
     if(s == "TAP_TARGET") return RESULT_TAP_TARGET;
     if(s == "DEAL_DAMAGE") return RESULT_DEAL_DAMAGE;
     if(s == "ADD_COUNTER") return RESULT_ADD_COUNTER;
+    if(s == "TEMPORARY_TRAIT") return RESULT_TEMPORARY_TRAIT;
     return RESULT_INVALID;
 }
 
@@ -38,6 +40,9 @@ effectTargetType stringToEffectTargetType(std::string s){
     if(s == "CHOOSE_OPPONENT_LAND") return TARGET_CHOOSE_OPPONENT_LAND;
     if(s == "CHOOSE_OWN_PERMANENT") return TARGET_CHOOSE_OWN_PERMANENT;
     if(s == "CHOOSE_OWN_LAND") return TARGET_CHOOSE_OWN_LAND;
+    if(s == "CHOOSE_ANY_TARGET") return TARGET_CHOOSE_ANY_TARGET;
+    if(s == "CONTROLLING_PLAYER") return TARGET_CONTROLLING_PLAYER;
+    if(s == "ALL_OPPONENTS") return TARGET_ALL_OPPONENTS;
     return TARGET_INVALID;
 }
 
@@ -50,7 +55,7 @@ Effect make_effect(std::string line){
     std::vector<std::string> results = split(params[4],'|');
     std::vector<std::string> targets = split(params[5],'|');
     mana m(params[6]);
-    int n = atoi(params[7].c_str());
+    int n = 0; //the counter may be ignored depending on the effect
     int tr, c, res, tar;
     tr = c = res = tar = 0;
     for (auto itr: triggers){

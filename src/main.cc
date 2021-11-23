@@ -35,9 +35,25 @@ void start_cards(std::unordered_map<std::string, Card> &cards){
     READ_CARDS(Creature, "creatures", cards);
 }
 
+void start_effects(std::unordered_map<std::string, Effect> &map){
+    std::ifstream effectsFile("database/effects");
+    std::string line;
+    debug_assert(effectsFile.is_open());
+    getline(effectsFile, line);
+    getline(effectsFile, line);
+    while(!line.empty()){
+        Effect e = make_effect(line);
+        debug_assert(map.count(e.name) == 0);
+        map.emplace(e.name, e);
+        getline(effectsFile, line);
+    }
+}
+
 int main(){
     std::unordered_map<std::string, Card> all_cards;
+    std::unordered_map<std::string, Effect> all_effects;
     logger::get().setVerbosity(VERBOSITY);
+    start_effects(all_effects);
     start_cards(all_cards);
     printf("Welcome to magic the terminal!\n\n");
     for(auto card: all_cards){

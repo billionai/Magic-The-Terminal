@@ -33,6 +33,7 @@ enum effectTrigger{
     TRIGGER_ATTACK, /* effect triggers when the creture attacks */
     TRIGGER_GET_ATTACKED, /* triggers when the creature gets attacked */
     TRIGGER_RECEIVE_TOKEN, /* triggers when the creature receives a token */
+    TRIGGER_DEATH, /* when this card dies */
 };
 effectTrigger stringToEffectTrigger(std::string);
 
@@ -51,6 +52,7 @@ enum effectResult{
     RESULT_TAP_TARGET, /* the effect taps a target, uses effectTargetType to decide the target */
     RESULT_DEAL_DAMAGE, /* deals N damage to the target, uses effectTargetType */
     RESULT_ADD_COUNTER, /* adds N counters to the target, uses effectTargetType and counterType */
+    RESULT_TEMPORARY_TRAIT /* adds a trait to the target for N turns */
 };
 effectResult stringToEffectResult(std::string);
 
@@ -62,6 +64,9 @@ enum effectTargetType {
     TARGET_CHOOSE_OPPONENT_LAND, /* targets any land of your opponent */
     TARGET_CHOOSE_OWN_PERMANENT, /* targets any permanent that you control */
     TARGET_CHOOSE_OWN_LAND, /* targets any land you control */
+    TARGET_CONTROLLING_PLAYER, /* targets the player that controls or has used this card */
+    TARGET_ALL_OPPONENTS, /* includes all opposing players, planeswalkers and creatures */
+    TARGET_CHOOSE_ANY_TARGET, /* any creature, planeswalker or player, according to rule 115.4 */
 };
 effectTargetType stringToEffectTargetType(std::string);
 
