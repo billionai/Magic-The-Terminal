@@ -26,6 +26,7 @@ trait_type traitTypeFromString(std::string s){
     if(s == "REACH") return TRAIT_REACH;
     if(s == "HASTE") return TRAIT_HASTE;
     if(s == "FIRST_STRIKE") return TRAIT_FIRST_STRIKE;
+    if(s == "OUT_FOR_BLOOD") return TRAIT_OUT_FOR_BLOOD;
     LOG(WARNING, "trait not implemented: %s", s.c_str());
     debug_assert_not_reached();
 }

@@ -6,3 +6,11 @@ Elusive Krasis,18,1UG,0,4,,,Fish Mutant
 Fathom Mage,18,2UG,1,1,,,Human Mage
 Gyre Sage,16,1G,1,2,,,Elf Druid
 Goblin Brawler,8,2R,2,2,FIRST_STRIKE,,Goblin Warrior
+Goblin Brigand,8,1R,2,2,OUT_FOR_BLOOD,,Goblin Warrior
+Goblin Bully,8,1R,2,1,,,Goblin
+Goblin Chainwhirler,8,RRR,3,3,FIRST_STRIKE,1_dmg_all,Goblin Warrior
+Goblin Berserker,8,3R,2,2,FIRST_STRIKE|HASTE,,Goblin
+Goblin Arsonist,8,R,1,1,,1_dmg_on_death,Goblin Shaman
+Goblin Artillery,8,1RR,1,3,,tap_2_dmg-3_self_dmg,Goblin Warrior
+Goblin Assailant,8,1R,2,2,,,Goblin Warrior
+Goblin Balloon Brigade,8,R,1,1,,pay_R_fly,Goblin Warrior

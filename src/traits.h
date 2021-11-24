@@ -10,6 +10,7 @@ enum trait_type{
     TRAIT_REACH,
     TRAIT_HASTE,
     TRAIT_FIRST_STRIKE,
+    TRAIT_OUT_FOR_BLOOD, /* must attack every turn */
 };
 
 class trait{
