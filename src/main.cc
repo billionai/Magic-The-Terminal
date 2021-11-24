@@ -2,6 +2,7 @@
 //#include <vector>
 #include <unordered_map>
 #include <fstream>
+#include <stdexcept>
 
 #include "land.h"
 #include "creature.h"
@@ -14,25 +15,30 @@
 #  define VERBOSITY WARNING
 #endif
 
-#define READ_CARDS(Type, fname, output) do{\
+#define READ_CARDS(Type, fname, map, output) do{\
     std::ifstream cardFile("database/" fname);\
     debug_assert(cardFile.is_open());\
     getline(cardFile, line);\
     getline(cardFile, line);\
     while(!line.empty()){\
-        Type t = make_##Type(line);\
-        debug_assert(output.count(t.name) == 0);\
-        output.emplace(t.name, t);\
+        try{ \
+            Type t = make_##Type(line, map);\
+            debug_assert(output.count(t.name) == 0);\
+            output.emplace(t.name, t);\
+        }catch(const std::invalid_argument& a) {\
+            /* error has already been reported, just ignore */\
+        }\
         getline(cardFile, line);\
     }\
 }while(0)
 
-void start_cards(std::unordered_map<std::string, Card> &cards){
+void start_cards(std::unordered_map<std::string, Card> &cards,
+                 std::unordered_map<std::string, Effect> &map){
     std::ifstream cardFile;
     std::string line;
     /* TODO: Change this to include things to the sqlite database */
-    READ_CARDS(Land, "lands", cards);
-    READ_CARDS(Creature, "creatures", cards);
+    READ_CARDS(Land, "lands", map, cards);
+    READ_CARDS(Creature, "creatures", map, cards);
 }
 
 void start_effects(std::unordered_map<std::string, Effect> &map){
@@ -54,7 +60,7 @@ int main(){
     std::unordered_map<std::string, Effect> all_effects;
     logger::get().setVerbosity(VERBOSITY);
     start_effects(all_effects);
-    start_cards(all_cards);
+    start_cards(all_cards, all_effects);
     printf("Welcome to magic the terminal!\n\n");
     for(auto card: all_cards){
         printf("%s\ncard type: %s, card colors:%s\n", card.second.name.c_str(),

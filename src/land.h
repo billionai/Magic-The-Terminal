@@ -3,12 +3,15 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <unordered_map>
+#include <stdexcept>
+
 #include "card.h"
 #include "mana.h"
 #include "effects.h"
 
 /* All lands generate mana, which is managed as an effect.
- * lands that can generate multiple times of mana (like gates)
+ * lands that can generate multiple types of mana (like gates)
  * will have multiple complex effects.  Lands that generate
  * more than one mana will have one complexEffect chain, where
  * the first effect has a cost of tapping, and is not
@@ -29,6 +32,13 @@ public:
          std::vector<complexEffect>&& e);
 };
 
-Land make_Land(std::string line);
+Land make_Land(std::string line, std::unordered_map<std::string, Effect>);
+
+enum land_params{
+    LAND_NAME_INDEX,
+    LAND_COLOR_INDEX,
+    LAND_EFFECTS_INDEX,
+    LAND_PARAMETERS
+};
 
 #endif /* _LAND_H */

@@ -1,9 +1,12 @@
 #ifndef _CREATURE_H
 #define _CREATURE_H
 
+#include <unordered_map>
+
 #include "mana.h"
 #include "card.h"
 #include "traits.h"
+#include "effects.h"
 
 class Creature: public Card{
 private:
@@ -15,7 +18,12 @@ private:
     //these members can start with values, but they may be
     //changed as the game goes on
     std::vector<trait> traits;
+    std::vector<complexEffect> effects;
 
+    //members that can change easily in combat:
+    
+    //if this card has invocation sickness at this point
+    bool invocation_sickness;
     //during a combat phase, this is important
     //after the combat phase, the health is back up to full
     int curr_health;
@@ -37,6 +45,18 @@ public:
              std::vector<trait>&);
 };
 
-Creature make_Creature(std::string line);
+Creature make_Creature(std::string line, std::unordered_map<std::string, Effect>);
+
+enum creature_params{
+    CREATURE_NAME_INDEX,
+    CREATURE_COLOR_INDEX,
+    CREATURE_COST_INDEX,
+    CREATURE_ATTACK_INDEX,
+    CREATURE_HEALTH_INDEX,
+    CREATURE_TRAITS_INDEX,
+    CREATURE_EFFECTS_INDEX,
+    CREATURE_TYPE_INDEX,
+    CREATURE_PARAMS_COUNT
+};
 
 #endif /*_CREATURE_H*/

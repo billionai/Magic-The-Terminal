@@ -1,4 +1,4 @@
-name,color,effects
+name,color,all|complex-effects
 Wastes,0,mana_gen_C
 Plains,1,mana_gen_W
 Island,2,mana_gen_U
