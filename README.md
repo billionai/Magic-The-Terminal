@@ -2,7 +2,9 @@
 
 This project aims to make an arena game based on Magic the Gathering's Commander style game
 
-DATABASE:
+## DATABASE:
+
+### Cards
 
 The database is made up of CSV files detailing all information needed. The current syntax works like so:
 
@@ -16,9 +18,24 @@ Timberwatch Elf, 16, 2G, 1, 2,,ADD\_CE\_ON\_ELF\_ENTER-ADD\_FREE\_PLUS1|TAP\_ADD
 
 which reads like so: Timberwatch Elf, a green elf card, with mana cost of 2 colorless mana and one green mana, has an attack of 1, a toughness of 2, and 2 ability chains: one that adds a complex effect when an elf enters the battlefield, other that adds +1/+1 countes to the target creature with a number equal to the amount of elves on the board.
 
+### Effects
+
+Effects work mostly similar to cards, but they can have more complex logic necessary. The most complex effect that is implemented yet is the following:
+
+goblin\_burrows\_side\_effect,0,ANYTIEM,TAP|PAY\_MANA,TEMPORARY\_COUNTER-p2\_p0,CHOOSE\_ANY\_CREATURE\_TYPED-GOBLIN,1R,1
+
+Which reads: Goblin Burrows Side Effect, pay 1R and tap this card: the target goblin receives a +2/+0 counter until the end of this turn
+
+The original card doesn't consider this +2/+0 a counter, but for implementation reasons, my program does.
+
+## TODO
+
 The current TODO list includes:
 * setup specific classes for all card types
-* create an Effect class, that handles special triggers
+* Create a counter class, that knows:
+    * Type of counter (poison, -1/-1,+x/+y and so on)
+    * duration of the counter (until end of turn, permanent, ...)
+    * if this counts as a counter for abilities that need them
 * Create a deck class, that can be shuffled and stores the IDs of the cards
     * It must also have a reader from file
     * And could be coupled with the graveyard, maybe
@@ -33,6 +50,7 @@ The current TODO list includes:
 * setup ncurses, to render the game
 
 Current done list:
+* create an Effect class, that handles special triggers
 * added a simple CSV database to the project
 * created file reader for lands, creatures and effects
 * created complexEffects as a way to chain simple effects together
