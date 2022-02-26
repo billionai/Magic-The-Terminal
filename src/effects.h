@@ -19,9 +19,12 @@
  */
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "log.h"
 #include "utils.h"
 #include "mana.h"
+#include "counter.h"
+#include "traits.h"
 
 /* what triggers allow the player to activate the effect */
 enum effectTrigger{
@@ -52,7 +55,8 @@ enum effectResult{
     RESULT_TAP_TARGET, /* the effect taps a target, uses effectTargetType to decide the target */
     RESULT_DEAL_DAMAGE, /* deals N damage to the target, uses effectTargetType */
     RESULT_ADD_COUNTER, /* adds N counters to the target, uses effectTargetType and counterType */
-    RESULT_TEMPORARY_TRAIT /* adds a trait to the target for N turns */
+    RESULT_TEMPORARY_TRAIT, /* adds a trait to the target for N turns */
+    RESULT_TEMPORARY_COUNTER, /* adds a counter to the target for N turns */
 };
 effectResult stringToEffectResult(std::string);
 
@@ -67,8 +71,26 @@ enum effectTargetType {
     TARGET_CONTROLLING_PLAYER, /* targets the player that controls or has used this card */
     TARGET_ALL_OPPONENTS, /* includes all opposing players, planeswalkers and creatures */
     TARGET_CHOOSE_ANY_TARGET, /* any creature, planeswalker or player, according to rule 115.4 */
+
+    /* all following values are used for conditional searching
+     * The least significant bit is the field being searched
+     * and the others define which values are acceptable. e.g.:
+     * CHOOSE_CREATURE_TYPED-GOBLIN will have the LSB set for
+     * searching a creature based on a type, and the bit for 
+     * goblin
+     */
+    TARGET_TYPE_CONDITIONAL = 0,
+
+
+    /* choose creature typed and all creatures typed share bits
+     * for types of creatures, for ease of implementation */
+    TARGET_CHOOSE_CREATURE_TYPED,
+    TARGET_ALL_CREATURES_TYPED,
+    TARGET_TYPED_GOBLIN_TYPE,
+    TARGET_TYPED_ELF_TYPE,
 };
 effectTargetType stringToEffectTargetType(std::string);
+effectTargetType stringToTypedTarget(std::string);
 
 class Effect {
 public:
@@ -84,6 +106,8 @@ public:
     /* Members that are only defined in certain situations */
     const mana mana_cost;
     const int n; /* this can stand for counters, damage or other 'N' stuff */
+    const counter result_counter;
+    const trait result_trait;
 
     /*
      * this is not expected to be used directly. pass the string to
@@ -98,6 +122,7 @@ class complexEffect{
 private:
     const Effect* main;
     std::unique_ptr<complexEffect> chain;
+    //complexEffect* chain;
 public:
     complexEffect(const Effect* m): main(m), chain(nullptr){ }
     void addEffect(const Effect* e){
@@ -105,7 +130,10 @@ public:
             chain->addEffect(e);
         else
             chain = std::make_unique<complexEffect>(e);
+            //chain = new complexEffect(e);
     }
 };
+
+complexEffect CEfromString(std::string, std::unordered_map<std::string, Effect>);
 
 #endif

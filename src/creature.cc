@@ -1,15 +1,18 @@
 #include "creature.h"
+#include <stdexcept>
 
 Creature::Creature(const std::string name,
                    const char col,
                    const int atk,
                    const int mx_hp,
                    const mana cst,
-                   std::vector<trait> &vt):
+                   std::vector<trait> &vt,
+                   std::vector<complexEffect> ce):
                     Card(CREATURE, name, col),
                     cost(cst), attack(atk),
                     max_health(mx_hp),
-                    traits(vt)
+                    traits(vt),
+                    effects(std::move(ce))
 { }
 
 
@@ -22,6 +25,7 @@ Creature make_Creature(std::string line,
     int attack = atoi(params[CREATURE_ATTACK_INDEX].c_str());
     int max_health = atoi(params[CREATURE_HEALTH_INDEX].c_str());
     std::vector<trait> vt;
+    std::vector<complexEffect> ce_vector;
     if(params[CREATURE_TRAITS_INDEX].length() > 0){
         std::vector<std::string> trait_strings = 
             split(params[CREATURE_TRAITS_INDEX],'|');
@@ -31,7 +35,23 @@ Creature make_Creature(std::string line,
         }
     }
 
+    try{
+        if(params[CREATURE_EFFECTS_INDEX].length() > 0){
+            std::vector<std::string> effect_chains;
+            effect_chains = split(params[CREATURE_EFFECTS_INDEX], '|');
+            for(auto single_chain: effect_chains){
+                ce_vector.emplace_back(CEfromString(single_chain, m));
+            }
+        }
+    } catch(const std::out_of_range& oor){
+        LOG(FAILURE, "failed to create creature %s"
+                    " effect %s was not defined",
+                    params[CREATURE_NAME_INDEX],
+                    params[CREATURE_EFFECTS_INDEX]);
+        throw std::invalid_argument(params[CREATURE_NAME_INDEX]);
+    }
+
     return Creature(params[CREATURE_NAME_INDEX],
                     color, attack, max_health,
-                    cost, vt);
+                    cost, vt, std::move(ce_vector));
 }

@@ -12,19 +12,14 @@ Land make_Land(std::string line, std::unordered_map<std::string, Effect> map){
     debug_assert(params.size() == LAND_PARAMETERS);
     try{
         if(!params[LAND_EFFECTS_INDEX].empty()){
-            std::vector<std::string> sep_effects, effect_chains;
+            std::vector<std::string> effect_chains;
             effect_chains = split(params[LAND_EFFECTS_INDEX], '|');
             for(auto single_chain: effect_chains){
-                sep_effects = split(single_chain, '-');
-                complexEffect ce(&map.at(sep_effects[0]));
-                for(size_t i = 1; i<sep_effects.size(); i++){
-                    ce.addEffect(&map.at(sep_effects[i]));
-                }
-                ce_vector.emplace_back(std::move(ce));
+                ce_vector.emplace_back(CEfromString(single_chain, map));
             }
         }
     } catch(const std::out_of_range& oor){
-        LOG(WARNING,
+        LOG(FAILURE,
             "failed to create card %s, "
             "effects %s were not defined",
             params[LAND_NAME_INDEX].c_str(),

@@ -20,6 +20,7 @@ public:
 
     void tap();
     void untap();
+    std::string str();
 };
 
 #endif /* _CARD_H */

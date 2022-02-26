@@ -5,3 +5,4 @@ Island,2,mana_gen_U
 Swamp,4,mana_gen_B
 Mountain,8,mana_gen_R
 Forest,16,mana_gen_G
+Goblin Burrows,0,mana_gen_C|goblin_burrows_side_effect

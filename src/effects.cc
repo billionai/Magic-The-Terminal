@@ -30,6 +30,7 @@ effectResult stringToEffectResult(std::string s){
     if(s == "DEAL_DAMAGE") return RESULT_DEAL_DAMAGE;
     if(s == "ADD_COUNTER") return RESULT_ADD_COUNTER;
     if(s == "TEMPORARY_TRAIT") return RESULT_TEMPORARY_TRAIT;
+    if(s == "TEMPORARY_COUNTER") return RESULT_TEMPORARY_COUNTER;
     return RESULT_INVALID;
 }
 
@@ -43,6 +44,13 @@ effectTargetType stringToEffectTargetType(std::string s){
     if(s == "CHOOSE_ANY_TARGET") return TARGET_CHOOSE_ANY_TARGET;
     if(s == "CONTROLLING_PLAYER") return TARGET_CONTROLLING_PLAYER;
     if(s == "ALL_OPPONENTS") return TARGET_ALL_OPPONENTS;
+    if(s == "CHOOSE_CREATURE_TYPED") return TARGET_CHOOSE_CREATURE_TYPED;
+    return TARGET_INVALID;
+}
+
+effectTargetType stringToTypedTarget(std::string s){
+    if(s == "GOBLIN") return TARGET_TYPED_GOBLIN_TYPE;
+    if(s == "ELF") return TARGET_TYPED_ELF_TYPE;
     return TARGET_INVALID;
 }
 
@@ -55,8 +63,11 @@ Effect make_effect(std::string line){
     std::vector<std::string> results = split(params[4],'|');
     std::vector<std::string> targets = split(params[5],'|');
     mana m(params[6]);
+    trait t;
     int n = 0; //the counter may be ignored depending on the effect
     int tr, c, res, tar;
+    effectResult result;
+    counter res_count;
     tr = c = res = tar = 0;
     for (auto itr: triggers){
         effectTrigger t = stringToEffectTrigger(itr);
@@ -73,18 +84,61 @@ Effect make_effect(std::string line){
         ADD_BIT(c, cost);
     }
     for(auto itr: results){
-        effectResult result = stringToEffectResult(itr);
         LOG(DEBUG, "attempting to create result: %s", itr.c_str());
+        if(itr.find('-') != std::string::npos){
+            LOG(DEBUG, "we have entered new territory",1);
+            //this result generates a counter or trait
+            std::vector<std::string> complResult = split(itr,'-');
+            result = stringToEffectResult(complResult[0]);
+            if(result == RESULT_ADD_COUNTER){
+                //figure out how to parse str to make counter
+                res_count = counter(complResult[1]);
+            }else if(result == RESULT_TEMPORARY_TRAIT){
+                //figure out how to turn str into trait
+                n = atoi(params[7].c_str());
+                trait_type tt = traitTypeFromString(complResult[1]);
+                t = trait(tt, n);
+            }else if(result == RESULT_TEMPORARY_COUNTER) {
+                res_count.set_counter(complResult[1]);
+            }
+        }else{
+            result = stringToEffectResult(itr);
+        }
         debug_assert(result != RESULT_INVALID);
         debug_assert(!CHECK_BIT(res,result));
         ADD_BIT(res, result);
     }
     for(auto itr: targets){
-        effectTargetType target = stringToEffectTargetType(itr);
         LOG(DEBUG, "attempting to create target: %s", itr.c_str());
-        debug_assert(target != TARGET_INVALID);
-        debug_assert(!CHECK_BIT(tar,target));
-        ADD_BIT(tar, target);
+        effectTargetType target;
+        if(itr.find('-') != std::string::npos){
+            auto all_targets = split(itr, '-');
+            target = stringToEffectTargetType(all_targets[0]);
+            debug_assert(target != TARGET_INVALID);
+            debug_assert(!CHECK_BIT(tar,target));
+            ADD_BIT(tar, target);
+            for(size_t i=1; i<all_targets.size(); i++){
+                target = stringToTypedTarget(all_targets[i]);
+                debug_assert(target != TARGET_INVALID);
+                debug_assert(!CHECK_BIT(tar,target));
+                ADD_BIT(tar, target);
+            }
+        }else{
+            target = stringToEffectTargetType(itr);
+            debug_assert(target != TARGET_INVALID);
+            debug_assert(!CHECK_BIT(tar,target));
+            ADD_BIT(tar, target);
+        }
     }
     return Effect(name, mandatory, tr, c, res, tar, m, n);
+}
+
+complexEffect CEfromString(std::string str, std::unordered_map<std::string, Effect> map){
+    std::vector<std::string> sep_effects;
+    sep_effects = split(str, '-');
+    complexEffect ce(&map.at(sep_effects[0]));
+    for(size_t i = 1; i<sep_effects.size(); i++){
+        ce.addEffect(&map.at(sep_effects[i]));
+    }
+    return ce;
 }

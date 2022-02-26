@@ -42,7 +42,8 @@ public:
              const int atk,
              const int mx_hp,
              const mana cst,
-             std::vector<trait>&);
+             std::vector<trait>&,
+             std::vector<complexEffect>);
 };
 
 Creature make_Creature(std::string line, std::unordered_map<std::string, Effect>);

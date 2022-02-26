@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <string>
 #include <vector>
+#include <bit>
 
 #include "log.h"
 
@@ -28,6 +29,8 @@
 #define ADD_BIT(store, bit) ((store) |= (1<<(bit)))
 #define REMOVE_BIT(store, bit) ((store) &= ~(1<<(bit)))
 #define CHECK_BIT(store, bit) (((store)>>(bit)) & 1)
+
+#define IS_SIMPLE_FIELD(field) (std::popcount(field) == 1)
 
 #define IS_PERMANENT(cardType) (cardType > 0)
 
