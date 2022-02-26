@@ -8,6 +8,7 @@
 #include "creature.h"
 #include "log.h"
 #include "effects.h"
+#include "deck.h"
 
 #ifdef DEBUG_BUILD
 #  define VERBOSITY DEBUG
@@ -56,15 +57,21 @@ void start_effects(std::unordered_map<std::string, Effect> &map){
 }
 
 int main(){
+    //char* input;
     std::unordered_map<std::string, Card> all_cards;
     std::unordered_map<std::string, Effect> all_effects;
     logger::get().setVerbosity(VERBOSITY);
     start_effects(all_effects);
     start_cards(all_cards, all_effects);
     printf("Welcome to magic the terminal!\n\n");
-    for(auto card: all_cards){
-        printf("%s\ncard type: %s, card colors:%s\n", card.second.name.c_str(),
-                            cardTypeAsString(card.second.type).c_str(), cardColorAsString(card.second.color).c_str());
+    printf("We already have %ld card for you to play! Look:\n",all_cards.size());
+    for(auto itr: all_cards){
+        printf("%s\n", itr.first.c_str());
     }
+    printf("\n\nCreating the goblin deck now:\n");
+    deck d("goblin1", all_cards);
+    d.print_ordered();
+    d.print_short();
+    //d.print_shuffle();
     return 0;
 }
