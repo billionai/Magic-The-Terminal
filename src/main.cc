@@ -70,7 +70,6 @@ int main(){
     }
     printf("\n\nCreating the goblin deck now:\n");
     deck d("goblin1", all_cards);
-    d.print_ordered();
     d.print_short();
     //d.print_shuffle();
     return 0;

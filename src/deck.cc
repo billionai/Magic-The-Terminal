@@ -36,6 +36,30 @@ void deck::shuffle(){
     }
 }
 
+void deck::insert_to_graveyard(int index){
+    graveyard.push_back(index);
+}
+
+int deck::search_graveyard(std::string name){
+    int i=0;
+    for(auto it = graveyard.rbegin();
+            it != graveyard.rend();
+            it ++, i++){
+        if(cards[*it].name == name) return i;
+    }
+    return -1;
+}
+
+int deck::remove_from_graveyard(size_t pos){
+    debug_assert(pos < graveyard.size());
+    auto it = graveyard.rbegin() + pos;
+    int ret = *it;
+    //please test this extensively, it is a SO solution
+    std::advance(it, 1);
+    graveyard.erase(it.base());
+    return ret;
+}
+
 void deck::print_ordered(){
     for(Card c: cards){
         printf("%s\n", c.name.c_str());
