@@ -32,3 +32,4 @@
 *.out
 *.app
 mtt
+mtt.debug
