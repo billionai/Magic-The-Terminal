@@ -10,22 +10,22 @@ SRC_DEPS = $(SRC_FILES:.cc=.d)
 
 all: $(OUTPUT)
 
-depend: .depend
-
-.depend: $(SRC_FILES)
-	$(CC) -MMD $^ -MF $@
-
-include .depend
-
-$(OUTPUT): $(OBJ_FILES) depend
+$(OUTPUT): $(OBJ_FILES)
 	$(CC) $(LINK_FLAGS) -o $(OUTPUT) $(OBJ_FILES)
 
+-include $(SRC_DEPS)
+
+# the move, sed and rm commands setup the .d file to have the rule name
+# start with "src/", otherwise the rules wont work
 %.o:%.cc
 	$(CC) $(COMP_FLAGS) $< -o $@
+	$(CC) $(COMP_FLAGS) -MM $< -o $*.d
+	@mv -f $*.d $*.d.tmp
+	@sed -e 's|.*:|$*.o:|' < $*.d.tmp >$*.d
+	@rm -f $*.d.tmp
 
 debug:
 	$(CC) $(DEBUG_FLAGS) $(SRC_FILES) -o $(OUTPUT)
 
 clean:
 	rm $(OBJ_FILES) $(OUTPUT)
-	rm core.*
