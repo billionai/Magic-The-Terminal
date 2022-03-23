@@ -3,6 +3,7 @@ COMP_FLAGS = -Wall -c -O2
 LINK_FLAGS = #change once we actually need link flags
 DEBUG_FLAGS = -O0 -g3 -DDEBUG_BUILD
 OUTPUT = mtt
+OUTPUT_DEBUG = mtt.debug
 SRC_FILES = $(wildcard src/*.cc)
 HEADER_FILES = $(wildcard src/*.h)
 OBJ_FILES = $(SRC_FILES:.cc=.o)
@@ -25,7 +26,8 @@ $(OUTPUT): $(OBJ_FILES)
 	@rm -f $*.d.tmp
 
 debug:
-	$(CC) $(DEBUG_FLAGS) $(SRC_FILES) -o $(OUTPUT)
+	$(CC) $(DEBUG_FLAGS) $(SRC_FILES) -o $(OUTPUT_DEBUG)
+	gdb ./$(OUTPUT_DEBUG) -q
 
 clean:
 	rm $(OBJ_FILES) $(OUTPUT)
