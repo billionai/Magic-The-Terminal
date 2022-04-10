@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "card.h"
+#include "graphic.h"
 
 class deck{
 private:

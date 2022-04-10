@@ -62,7 +62,7 @@ int deck::remove_from_graveyard(size_t pos){
 
 void deck::print_ordered(){
     for(Card c: cards){
-        printf("%s\n", c.name.c_str());
+        printw("%s\n", c.name.c_str());
     }
 }
 
@@ -72,13 +72,13 @@ void deck::print_short(){
         ordered[c.name]++;
     }
     for(auto it = ordered.begin(); it!=ordered.end(); it++){
-        printf("%2d x \t%s\n", it->second, it->first.c_str());
+        printw("%2d x \t%s\n", it->second, it->first.c_str());
     }
 }
 
 void deck::print_shuffle(){
     for(int i:curr_shuffle){
-        printf("%s\n", cards[i].name.c_str());
+        printw("%s\n", cards[i].name.c_str());
     }
 }
 

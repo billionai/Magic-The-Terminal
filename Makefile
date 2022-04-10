@@ -1,6 +1,6 @@
 CC = g++
 COMP_FLAGS = -Wall -c -O2
-LINK_FLAGS = #change once we actually need link flags
+LINK_FLAGS = -lncurses
 DEBUG_FLAGS = -O0 -g3 -DDEBUG_BUILD
 OUTPUT = mtt
 OUTPUT_DEBUG = mtt.debug

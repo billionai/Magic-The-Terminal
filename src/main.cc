@@ -1,5 +1,4 @@
 #include <stdio.h>
-//#include <vector>
 #include <unordered_map>
 #include <fstream>
 #include <stdexcept>
@@ -9,6 +8,7 @@
 #include "log.h"
 #include "effects.h"
 #include "deck.h"
+#include "graphic.h"
 
 #ifdef DEBUG_BUILD
 #  define VERBOSITY DEBUG
@@ -56,21 +56,38 @@ void start_effects(std::unordered_map<std::string, Effect> &map){
     }
 }
 
-int main(){
+int captured_main() {
     //char* input;
     std::unordered_map<std::string, Card> all_cards;
     std::unordered_map<std::string, Effect> all_effects;
     logger::get().setVerbosity(VERBOSITY);
     start_effects(all_effects);
     start_cards(all_cards, all_effects);
-    printf("Welcome to magic the terminal!\n\n");
-    printf("We already have %ld card for you to play! Look:\n",all_cards.size());
+    printw("Welcome to magic the terminal!\n");
+    printw("We already have %ld card for you to play! Look:\n",all_cards.size());
     for(auto itr: all_cards){
-        printf("%s\n", itr.first.c_str());
+        printw(itr.first.c_str());
+        printw("\n");
     }
-    printf("\n\nCreating the goblin deck now:\n");
+    printw("\n\nCreating the goblin deck now:\n");
     deck d("goblin1", all_cards);
     d.print_short();
     //d.print_shuffle();
     return 0;
+}
+
+int main(){
+    terminal_options original = get_terminal_options();
+    int main_ret = -1;
+    try {
+        start_graphics();
+        main_ret = captured_main();
+        getch();
+    }
+    catch(int err) {
+        printw(0, 0, "an exception has occurred, press any key to exit");
+        refresh();
+    }
+    finish_graphics(original);
+    return main_ret;
 }
