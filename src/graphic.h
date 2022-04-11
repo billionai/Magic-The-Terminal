@@ -1,7 +1,7 @@
 #ifndef __GRAPHIC_H__
 #define __GRAPHIC_H__
 #include <ncurses.h>
-#include <cstdarg>
+#include <panel.h>
 
 /* What options that were enabled at the time of querying.
    This struct is used to save and set options conveniently. */

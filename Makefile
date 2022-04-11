@@ -1,6 +1,6 @@
 CC = g++
 COMP_FLAGS = -Wall -c -O2
-LINK_FLAGS = -lncurses
+LINK_FLAGS = -lncurses -lpanel
 DEBUG_FLAGS = -O0 -g3 -DDEBUG_BUILD
 OUTPUT = mtt
 OUTPUT_DEBUG = mtt.debug
@@ -26,8 +26,7 @@ $(OUTPUT): $(OBJ_FILES)
 	@rm -f $*.d.tmp
 
 debug:
-	$(CC) $(DEBUG_FLAGS) $(SRC_FILES) -o $(OUTPUT_DEBUG)
-	gdb ./$(OUTPUT_DEBUG) -q
+	$(CC) $(DEBUG_FLAGS) $(LINK_FLAGS) $(SRC_FILES) -o $(OUTPUT_DEBUG)
 
 clean:
 	rm $(OBJ_FILES) $(OUTPUT)

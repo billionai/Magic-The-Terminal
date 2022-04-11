@@ -27,6 +27,7 @@ static void set_noecho(){
 
 void start_graphics(){
     initscr();
+    refresh();
     set_raw();
     set_noecho();
 }

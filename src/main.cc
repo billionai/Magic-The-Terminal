@@ -9,6 +9,7 @@
 #include "effects.h"
 #include "deck.h"
 #include "graphic.h"
+#include "main_menu.h"
 
 #ifdef DEBUG_BUILD
 #  define VERBOSITY DEBUG
@@ -73,6 +74,7 @@ int captured_main() {
     deck d("goblin1", all_cards);
     d.print_short();
     //d.print_shuffle();
+    getch();
     return 0;
 }
 
@@ -81,8 +83,8 @@ int main(){
     int main_ret = -1;
     try {
         start_graphics();
-        main_ret = captured_main();
-        getch();
+        //main_ret = captured_main();
+        handle_main_menu();
     }
     catch(int err) {
         printw(0, 0, "an exception has occurred, press any key to exit");
