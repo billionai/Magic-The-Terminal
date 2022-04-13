@@ -2,6 +2,7 @@
 #define __GRAPHIC_H__
 #include <ncurses.h>
 #include <panel.h>
+#include <menu.h>
 
 /* What options that were enabled at the time of querying.
    This struct is used to save and set options conveniently. */

@@ -57,7 +57,7 @@ void start_effects(std::unordered_map<std::string, Effect> &map){
     }
 }
 
-int captured_main() {
+void early_init(){
     //char* input;
     std::unordered_map<std::string, Card> all_cards;
     std::unordered_map<std::string, Effect> all_effects;
@@ -75,21 +75,53 @@ int captured_main() {
     d.print_short();
     //d.print_shuffle();
     getch();
-    return 0;
+}
+
+void captured_main() {
+    main_menu_info info;
+    //early_init();
+    int c, selected = 0;
+    while(selected == 0) {
+        c = getch();
+        switch (c) {
+            case KEY_UP:
+            case KEY_DOWN:
+            case 'j':
+            case 'k':
+            case 'w':
+            case 's':
+                info.move_menu(c);
+                break;
+            case '\n':
+            case ' ':
+            case 'e':
+                selected = info.select_item();
+                break;
+            case 'q':
+                selected = -1;
+                break;
+            default:
+                /* do nothing */
+                break;
+        }
+    }
+    if(selected == -1) return;
+    else{
+        mvprintw(0,0,"not yet implemented");
+        refresh();
+    }
 }
 
 int main(){
     terminal_options original = get_terminal_options();
-    int main_ret = -1;
     try {
         start_graphics();
-        //main_ret = captured_main();
-        handle_main_menu();
+        captured_main();
     }
     catch(int err) {
         printw(0, 0, "an exception has occurred, press any key to exit");
         refresh();
     }
     finish_graphics(original);
-    return main_ret;
+    return 0;
 }
