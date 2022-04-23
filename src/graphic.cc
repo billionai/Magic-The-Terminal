@@ -30,6 +30,7 @@ void start_graphics(){
     refresh();
     set_raw();
     set_noecho();
+    keypad(stdscr, true);
 }
 
 void finish_graphics(terminal_options original_opts){

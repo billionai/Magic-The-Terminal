@@ -109,6 +109,7 @@ void captured_main() {
     else{
         mvprintw(0,0,"not yet implemented");
         refresh();
+        getch();
     }
 }
 
