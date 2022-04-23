@@ -96,12 +96,22 @@ void captured_main() {
                 /* do nothing */
                 break;
         }
-    }
-    if(selected == -1) return;
-    else{
-        mvprintw(0,0,"not yet implemented");
-        refresh();
-        getch();
+        switch (selected) {
+            case 2:
+                choose_inspector();
+                break;
+            case -1:
+                /* quit was chosen. Exit the function */
+                return;
+            case 0:
+                /* Do nothing, no option was selected */
+                break;
+            default:
+                mvprintw(0,0,"not yet implemented, press any key to continue");
+                refresh();
+                getch();
+        }
+        selected = 0;
     }
 }
 
