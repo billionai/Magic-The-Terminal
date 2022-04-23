@@ -10,11 +10,18 @@
 #include "deck.h"
 #include "graphic.h"
 #include "main_menu.h"
+#include "inspectors.h"
+
+/* global variables, they work as the database for now. */
+/* FIXME: Turn this into an actual database, with accessors and such.
+   it will be needed at some point. */
+std::unordered_map<std::string, Card> all_cards;
+std::unordered_map<std::string, Effect> all_effects;
 
 #ifdef DEBUG_BUILD
-#  define VERBOSITY DEBUG
-#else
 #  define VERBOSITY WARNING
+#else
+#  define VERBOSITY FAILURE
 #endif
 
 #define READ_CARDS(Type, fname, map, output) do{\
@@ -58,23 +65,8 @@ void start_effects(std::unordered_map<std::string, Effect> &map){
 }
 
 void early_init(){
-    //char* input;
-    std::unordered_map<std::string, Card> all_cards;
-    std::unordered_map<std::string, Effect> all_effects;
-    logger::get().setVerbosity(VERBOSITY);
     start_effects(all_effects);
     start_cards(all_cards, all_effects);
-    printw("Welcome to magic the terminal!\n");
-    printw("We already have %ld card for you to play! Look:\n",all_cards.size());
-    for(auto itr: all_cards){
-        printw(itr.first.c_str());
-        printw("\n");
-    }
-    printw("\n\nCreating the goblin deck now:\n");
-    deck d("goblin1", all_cards);
-    d.print_short();
-    //d.print_shuffle();
-    getch();
 }
 
 void captured_main() {
@@ -115,6 +107,7 @@ void captured_main() {
 
 int main(){
     terminal_options original = get_terminal_options();
+    logger::get().setVerbosity(VERBOSITY);
     try {
         start_graphics();
         captured_main();
