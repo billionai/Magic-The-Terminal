@@ -40,7 +40,7 @@ private:
     MENU* menu;
 public:
     main_menu_info();
-    //~main_menu_info();
+    ~main_menu_info();
     void move_menu(int key);
     int select_item();
 };

@@ -81,6 +81,19 @@ main_menu_info::main_menu_info() {
     doupdate();
 }
 
+main_menu_info::~main_menu_info(){
+    unpost_menu(menu);
+    free_menu(menu);
+    for(int i=0; i<NUM_OPTIONS; i++)
+        free_item(bare_menu_items[i]);
+    if(windows[0]){
+        del_panel(panels[0]);
+        delwin(windows[0]);
+    }
+    del_panel(panels[1]);
+    delwin(windows[1]);
+}
+
 void main_menu_info::move_menu(int key){
     int curr;
     /* print the old selected item without A_STANDOUT */
