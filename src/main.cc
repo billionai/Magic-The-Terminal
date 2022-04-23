@@ -71,10 +71,10 @@ void early_init(){
 
 void captured_main() {
     main_menu_info info;
-    //early_init();
+    early_init();
     int c, selected = 0;
     while(selected == 0) {
-        c = getch();
+        c = info.get_input();
         switch (c) {
             case KEY_UP:
             case KEY_DOWN:

@@ -20,6 +20,7 @@ public:
     ~main_menu_info();
     void move_menu(int key);
     int select_item();
+    int get_input();
 };
 
 #endif /* __MAIN_MENU_H__ */

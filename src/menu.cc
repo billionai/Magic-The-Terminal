@@ -40,6 +40,8 @@ void managed_menu::startup(WINDOW* win, std::vector<std::string> options){
 }
 
 managed_menu::~managed_menu(){
+    /* Nothing to do if the menu wasn't started */
+    if(! started) return;
     unpost_menu(menu);
     free_menu(menu);
     for(size_t i=0; i<class_menu_items.size(); i++)
