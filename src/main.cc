@@ -18,12 +18,6 @@
 std::unordered_map<std::string, Card> all_cards;
 std::unordered_map<std::string, Effect> all_effects;
 
-#ifdef DEBUG_BUILD
-#  define VERBOSITY WARNING
-#else
-#  define VERBOSITY FAILURE
-#endif
-
 #define READ_CARDS(Type, fname, map, output) do{\
     std::ifstream cardFile("database/" fname);\
     debug_assert(cardFile.is_open());\
@@ -117,6 +111,7 @@ void captured_main() {
 int main(){
     terminal_options original = get_terminal_options();
     logger::get().setVerbosity(VERBOSITY);
+    logger::get().openFile();
     try {
         start_graphics();
         captured_main();
@@ -125,6 +120,7 @@ int main(){
         printw(0, 0, "an exception has occurred, press any key to exit");
         refresh();
     }
+    logger::get().closeFile();
     finish_graphics(original);
     return 0;
 }

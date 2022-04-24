@@ -6,6 +6,15 @@
 
 /* Singleton class for logging things with the correct verbosity level */
 
+#define LOG_FILE "log"
+#ifndef VERBOSITY
+#  ifdef DEBUG_BUILD
+#    define VERBOSITY DEBUG
+#  else
+#    define VERBOSITY WARNING
+#  endif
+#endif
+
 enum VerbLevel{
     DEBUG, /* all messages are printed */
     WARNING, /* debug_asserts reached are warned about */
@@ -16,6 +25,7 @@ class logger {
     private:
         logger() { }
         VerbLevel verbosity;
+        FILE* output = NULL;
     public:
         logger(logger const&) = delete;
         void operator=(logger const&) =delete;
@@ -32,15 +42,22 @@ class logger {
             verbosity = v;
         }
 
+        void openFile(){
+            output = fopen(LOG_FILE, "w");
+        }
+        void closeFile(){
+            fclose(output);
+        }
+
         void log(VerbLevel v, const char* fmt, ...){
             va_list ap;
             va_start(ap, fmt);
             if(v >= verbosity){
-                if(v == DEBUG) printf("DEBUG:\t");
-                if(v == WARNING) printf("WARNING:\t");
-                if(v == FAILURE) printf("FAILURE:\t");
-                vprintf(fmt, ap);
-                printf("\n");
+                if(v == DEBUG) fprintf(output,"DEBUG:\t");
+                if(v == WARNING) fprintf(output,"WARNING:\t");
+                if(v == FAILURE) fprintf(output,"FAILURE:\t");
+                vfprintf(output, fmt, ap);
+                fprintf(output, "\n");
             }
             va_end(ap);
         }
