@@ -109,7 +109,6 @@ void captured_main() {
             default:
                 mvprintw(0,0,"not yet implemented, press any key to continue");
                 refresh();
-                getch();
         }
         selected = 0;
     }
