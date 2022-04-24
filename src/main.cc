@@ -3,64 +3,15 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "land.h"
-#include "creature.h"
 #include "log.h"
-#include "effects.h"
-#include "deck.h"
 #include "graphic.h"
 #include "main_menu.h"
 #include "inspectors.h"
-
-/* global variables, they work as the database for now. */
-/* FIXME: Turn this into an actual database, with accessors and such.
-   it will be needed at some point. */
-std::unordered_map<std::string, Card> all_cards;
-std::unordered_map<std::string, Effect> all_effects;
-
-#define READ_CARDS(Type, fname, map, output) do{\
-    std::ifstream cardFile("database/" fname);\
-    debug_assert(cardFile.is_open());\
-    getline(cardFile, line);\
-    getline(cardFile, line);\
-    while(!line.empty()){\
-        try{ \
-            Type t = make_##Type(line, map);\
-            debug_assert(output.count(t.name) == 0);\
-            output.emplace(t.name, t);\
-        }catch(const std::invalid_argument& a) {\
-            /* error has already been reported, just ignore */\
-        }\
-        getline(cardFile, line);\
-    }\
-}while(0)
-
-void start_cards(std::unordered_map<std::string, Card> &cards,
-                 std::unordered_map<std::string, Effect> &map){
-    std::ifstream cardFile;
-    std::string line;
-    /* TODO: Change this to include things to the sqlite database */
-    READ_CARDS(Land, "lands", map, cards);
-    READ_CARDS(Creature, "creatures", map, cards);
-}
-
-void start_effects(std::unordered_map<std::string, Effect> &map){
-    std::ifstream effectsFile("database/effects");
-    std::string line;
-    debug_assert(effectsFile.is_open());
-    getline(effectsFile, line);
-    getline(effectsFile, line);
-    while(!line.empty()){
-        Effect e = make_effect(line);
-        debug_assert(map.count(e.name) == 0);
-        map.emplace(e.name, e);
-        getline(effectsFile, line);
-    }
-}
+#include "database.h"
 
 void early_init(){
-    start_effects(all_effects);
-    start_cards(all_cards, all_effects);
+    start_effects();
+    start_cards();
 }
 
 void captured_main() {
