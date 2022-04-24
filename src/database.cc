@@ -54,3 +54,10 @@ void start_effects(){
     }
 }
 
+const std::unordered_map<std::string, Effect>& get_effect_database(){
+    return all_effects;
+}
+
+const std::unordered_map<std::string, Card>& get_card_database(){
+    return all_cards;
+}
