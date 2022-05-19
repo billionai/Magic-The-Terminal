@@ -36,6 +36,14 @@ public:
 /* This panel creates a list of all known effects, and by selecting an effect by name it opens an
    effect_inspector, that shows the chain of effects that may take place if this effect is triggered. */
 class inspect_all_effects{
+private:
+    int width, height;
+    WINDOW* win;
+    PANEL* pan;
+    managed_menu;
+public:
+    inspect_all_effects(int, int);
+    ~inspect_all_effects();
 };
 
 /* This panel creates a list of all known cards, and by selecting a card by name, it will open a
