@@ -6,6 +6,7 @@
 #include "log.h"
 #include "graphic.h"
 #include "main_menu.h"
+#include "game_menu.h"
 #include "inspectors.h"
 #include "database.h"
 
@@ -42,6 +43,11 @@ void captured_main() {
                 break;
         }
         switch (selected) {
+            case 1:
+                card_game_loop();
+                update_panels();
+                doupdate();
+                break;
             case 2:
                 choose_inspector();
                 break;
