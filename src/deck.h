@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <algorithm>
+#include <unordered_map>
 
 #include "card.h"
 #include "graphic.h"
